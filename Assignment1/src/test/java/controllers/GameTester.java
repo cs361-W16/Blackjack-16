@@ -19,4 +19,11 @@ public class GameTester extends NinjaDocTester {
         models.Game activeGame = new models.Game();
         assertEquals(activeGame.isOver, false);
     }
+
+    @Test
+    public void testBoardExists(){
+        models.Game activeGame = new models.Game();
+        assertNotNull(activeGame.board);
+
+    }
 }
