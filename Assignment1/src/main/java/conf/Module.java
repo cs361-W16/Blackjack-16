@@ -19,6 +19,8 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import javax.validation.constraints.AssertTrue;
+
 @Singleton
 public class Module extends AbstractModule {
     
@@ -30,3 +32,4 @@ public class Module extends AbstractModule {
     }
 
 }
+
