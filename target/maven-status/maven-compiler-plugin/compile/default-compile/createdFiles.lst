@@ -1,6 +1,14 @@
+controllers\UserController.class
 controllers\ApplicationController.class
 conf\Routes.class
+models\Dealer.class
+models\Ace.class
 models\Card.class
+models\Face.class
 conf\Module.class
+models\Hand.class
 models\Game.class
-models\Suit.class
+controllers\DealerController.class
+models\Deck.class
+models\User.class
+models\Player.class
