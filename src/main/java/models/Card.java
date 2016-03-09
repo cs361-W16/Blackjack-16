@@ -10,4 +10,16 @@ public class Card{
         rank = r;
         value = v;
     }
+
+    public String getSuit(){
+        return suit;
+    }
+
+    public String getRank(){
+        return rank;
+    }
+
+    public int getValue(){
+        return value;
+    }
 }
