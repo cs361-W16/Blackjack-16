@@ -30,5 +30,12 @@ public class testCard {
         assertEquals(5,c.getValue());
     }
 
+    @Test
+    public void testSetValue(){
+        Card a = new Card("Hearts","1",1);
+        a.setValue(11);
+        assertEquals(11,a.getValue());
+    }
+
 }
 

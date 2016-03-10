@@ -27,9 +27,9 @@ public class testHand{
         Card c1 = new Card("Spades", "6", 6);
         Card c2 = new Card("Hearts","5", 5);
         Hand h2 = new Hand();
-        Hand.addCard(c);
-        Hand.addCard(c1);
-        Hand.addCard(c2);
+        h2.addCard(c);
+        h2.addCard(c1);
+        h2.addCard(c2);
         assertEquals(true,h2.isBlackjack());
     }
 
@@ -38,8 +38,8 @@ public class testHand{
         Card cc = new Card("Diamonds","10", 10);
         Card cc1 = new Card("Spades", "6", 6);
         Hand hh = new Hand();
-        Hand.addCard(cc);
-        Hand.addCard(cc1);
+        hh.addCard(cc);
+        hh.addCard(cc1);
         assertEquals(false,hh.isBlackjack());
     }
 
@@ -49,9 +49,9 @@ public class testHand{
         Card c1 = new Card("Spades", "6", 6);
         Card c2 = new Card("Hearts","8", 8);
         Hand h4 = new Hand();
-        Hand.addCard(c);
-        Hand.addCard(c1);
-        Hand.addCard(c2);
+        h4.addCard(c);
+        h4.addCard(c1);
+        h4.addCard(c2);
         assertEquals(true,h4.isBust());
     }
 
@@ -61,9 +61,9 @@ public class testHand{
         Card c1 = new Card("Spades", "6", 6);
         Card c2 = new Card("Hearts","3", 3);
         Hand h5 = new Hand();
-        Hand.addCard(c);
-        Hand.addCard(c1);
-        Hand.addCard(c2);
+        h5.addCard(c);
+        h5.addCard(c1);
+        h5.addCard(c2);
         assertEquals(false,h5.isBust());
     }
 }

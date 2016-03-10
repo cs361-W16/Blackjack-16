@@ -1,36 +1,51 @@
 package models;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 
 public class testDeck{
-        @Test
+
+
+    private static Deck d;
+  //  private boolean deckInit = false;
+  //  private int makeDeckOnce = 1;
+
+    @BeforeClass
+    public static void setUp() throws Exception {
+       // if(!deckInit) {
+            d = new Deck();
+            System.out.println("" + d.cards.size());
+    }
+
+    @Test
         public void testbuildDeck(){
-            Deck d = new Deck();
-            assertNotNull(d);
-            assertEquals(52, d.cards.size());
+            Deck d2 = new Deck();
+            assertNotNull(d2);
+            assertEquals(52, d2.cards.size());
         }
 
         @Test
         public void testshuffle(){
-            Deck d = new Deck();
-            d.shuffle();
-            assertNotEquals(1,d.cards.get(0).getValue());
+            Deck d3 = new Deck();
+            d3.shuffle();
+            assertNotEquals(1,d3.cards.get(0).getValue());
         }
 
         @Test
         public void testgetCard(){
-            Deck d = new Deck();
-            assertEquals(1,d.getCardinDeck(0).getValue());
+            Deck d4 = new Deck();
+            assertEquals(1,d4.getCardinDeck(0).getValue());
         }
 
         @Test
         public void testDealCard(){
-            Deck d = new Deck();
-            d.dealCard();
-            assertEquals(51, d.cards.size());
+            Deck d5 = new Deck();
+            d5.dealCard();
+            assertEquals(51, d5.cards.size());
         }
 
 }
