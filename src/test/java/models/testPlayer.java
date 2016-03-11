@@ -27,4 +27,11 @@ public class testPlayer{
         p.hit(c);
         assertEquals(dealtValue,p.hand.cards.get(0).getValue());
     }
+
+    @Test
+    public void testStand(){
+        Player p = new Player();
+        p.stand();
+        assertNotNull(p);
+    }
 }
