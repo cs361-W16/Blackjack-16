@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>BlackJack</title>
+  <script type="text/javascript" src="/assets/webjars/jquery/2.1.3/jquery.js"></script>
+  <link href="assets/css/AcesUp.css" rel="stylesheet">
+
+</head>
+<body>
+  <div id="containerDiv">
+<div id="dealer">
+  <span class="nameText">Dealer</span>
+
+  <input type="image" id="deckImg" src="assets/images/deck.jpg">
+  <span id="restart">New Game</span></button>
+  <div>
+    <div id="dealerCards">
+      <div class="cardHolderEmpty" id="dealer1"><img src="assets/images/placeHolder.png"/></div>
+      <div class="cardHolderEmpty" id="dealer2"><img src="assets/images/placeHolder.png"/></div>
+      <div class="cardHolderEmpty" id="dealer3"><img src="assets/images/placeHolder.png"/></div>
+      <div class="cardHolderEmpty" id="dealer4"><img src="assets/images/placeHolder.png"/></div>
+      <div class="cardHolderEmpty" id="dealer5"><img src="assets/images/placeHolder.png"/></div>
+      <div class="cardHolderEmpty" id="dealer6"><img src="assets/images/placeHolder.png"/></div>
+      <div class="cardHolderEmpty" id="dealer7"><img src="assets/images/placeHolder.png"/></div>
+      <div class="cardHolderEmpty" id="dealer8"><img src="assets/images/placeHolder.png"/></div>
+    </div>
+  </div>
+</div>
+<div id="boardCenter">
+  <span id="gamePot" class="nameText"></span>
+</div>
+<div id="player">
+
+
+  <div id="playerCards">
+    <div class="cardHolderEmpty" id="pos_1"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_2"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_3"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_4"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_5"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_6"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_7"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_8"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_9"><img src="assets/images/placeHolder.png"/></div>
+    <div class="cardHolderEmpty" id="pos_10"><img src="assets/images/placeHolder.png"/></div>
+  </div>
+  <div id="playerInfo">
+    <div id="playerName">
+      <span id="nameSpan" class="nameText">User</span>
+    </div>
+    <div id="playerBank">
+      <span id="bankAmt" class="nameText"></span>
+    </div>
+  </div>
+  <div id="postSplit">
+    <button type="button"  class="actionButton inActive hidden" id="splitHitLeft">Hit Left</button>
+    <button type="button"  class="actionButton inActive hidden" id="splitHitRight">Hit Right</button>
+  </div>
+  <div id="playerActions">
+    <button type="button"  class="actionButton active" id="Deal">Deal/New Round</button>
+    <button type="button"  class="actionButton active" id="hitButton">Hit</button>
+    <button type="button"  class="actionButton active" id="stayButton">Stay</button>
+    <button type="button"  class="actionButton active" id="splitButton">Split</button>
+    <button type="button"  class="actionButton active" id="doubleDown">Double Down</button>
+  </div>
+
+</div>
+
+
+</div>
+
+<script>
+  
+
+$(document).ready(function(){
+
+  var name = null;
+  var setPlayerName = function(){
+    name = $("#nameVal").val();
+    $("#nameSpan").text(name);
+  };
+
+  var initButtons = function(){
+
+    $('#doubleDown').removeClass("active")
+    $('#doubleDown').addClass("inActive")
+    $('#Deal').addClass("active")
+    $('#Deal').removeClass("inActive")
+    $('#hitButton').removeClass("active")
+    $('#hitButton').addClass("inActive")
+    $('#splitButton').removeClass("active")
+    $('#splitButton').addClass("inActive")
+    $('#stayButton').removeClass("active")
+    $('#stayButton').addClass("inActive")
+  }
+
+  initButtons();
+
+  $.ajax({
+    type: "GET",
+    url: "/getData",
+    success: function(data, status) {
+      BlackJack(data);
+    },
+
+    contentType:"application/json; charset=utf-8",
+    dataType:"json",
+  });
+
+
+  var BlackJack = function(data) {
+    var game = data;
+    var pot = 0;
+
+    $("#deckImg").click(function(){
+      location.reload(true);
+    })
+
+    $("#Deal").click(function() {
+      
+      pot = game.pot
+      firstDeal(game), setPlayerBank(game), setPot(game), checkSplit(game), leftResult(game);
+      $('#doubleDown').addClass("active");
+      $('#doubleDown').removeClass("inActive");
+    })
+
+    $("#hitButton").click(function() {
+      if($(this).hasClass("inActive")){
+        alert("Hit is not available at this point");
+      }
+      else{
+        sendAjax("/user/hit", game, placeUserCards, leftResult);
+        $('#doubleDown').removeClass("active");
+        $('#doubleDown').addClass("inActive");
+      }
+    })
+
+    $("#splitHitLeft").click(function() {
+     if($(this).hasClass("inActive")){
+      alert("This action is not available at this point");
+    }
+    else{
+      console.log("hitting left side");
+      sendAjax("/user/hit", game, placeCardsLeft, leftResult);
+      $('#doubleDown').removeClass("active")
+      $('#doubleDown').addClass("inActive")
+    }
+  });
+
+    $("#splitHitRight").click(function() {
+     if($(this).hasClass("inActive")){
+      alert("This action is not available at this point");
+    }
+    else{
+      console.log("hitting Right side");
+      sendAjax("/user/hitRight", game, placeCardsRight, rightResult);
+      $('#doubleDown').removeClass("active")
+      $('#doubleDown').addClass("inActive")
+    }
+  });
+
+    $('#stayButton').click(function(){
+      if($(this).hasClass("inActive")){
+        alert("Stay is not available at this point");
+      }
+      else{
+        dealerPlay(game);
+      }
+    })
+
+    $('#splitButton').click(function(){
+      if($(this).hasClass("active")){
+        sendAjax("/user/split", game, displayAfterSplit)
+        $('#splitHitLeft').removeClass("inActive hidden");
+        $('#splitHitRight').removeClass("inActive hidden");
+        $('#splitHitLeft').addClass("active");
+        $('#splitHitRight').addClass("active");
+        $('#hitButton').addClass("inActive");
+        $('#hitButton').removeClass("active");
+        $('#stayButton').addClass("inActive");
+        $('#stayButton').removeClass("active");
+        $('#splitButton').addClass("inActive");
+        $('#splitButton').removeClass("active");     
+        $('#doubledown').addClass("inActive");
+        $('#doubledown').removeClass("active");            
+      }
+      else{
+        alert("split is not available at this point");
+      }
+
+    })
+
+    $('#doubleDown').click(function(){
+      if($('#doubleDown').hasClass("active")){
+
+        console.log("trying doubledown");
+        sendAjax("/user/hit", game, placeUserCards);
+        sendAjax("/user/doubleDown", game, setPlayerBank, setPot);
+        $('#doubleDown').removeClass("active");
+        $('#doubleDown').addClass("inActive");
+        dealerPlay(game);
+      }
+      else{
+        alert("doubledown is not available at this point");
+      }
+
+    });
+
+
+    var checkSplit = function(game){
+
+      if(game.cruz.handLeft.cards[0].rank === game.cruz.handLeft.cards[1].rank){
+        console.log("can split");
+        $('#splitButton').removeClass("inActive");
+        $('#splitButton').addClass("active");
+      }
+      else{
+        console.log("can't split");
+        $('#splitButton').removeClass("active");
+        $('#splitButton').addClass("inActive");
+
+      }
+    }
+
+    var setPlayerBank = function(game){
+      // console.log(game);
+      $("#bankAmt").text("Bank: $" + (game.cruz.bank));
+     // game.cruz.bank = game.cruz.bank -  game.cruz.lastbet;
+   }
+
+   var setPot = function(game){
+    pot = pot + game.cruz.lastbet;
+    $("#gamePot").text("Pot: $" + pot);
+  }
+
+  var displayHand = function(game) {
+    console.log(game.cruz.handLeft.cards[this.length]);
+  }
+
+  var userHit = function(){
+    console.log(game);
+  }
+
+  var getAjax = function(route, callBack1, callBack2, callBack3, callBack4) {
+    $.ajax({
+      type: "GET",
+      url: route,
+      success: function(data, status) {
+        game = data
+        if(callBack1 && !callBack2) callBack2(data);
+        else if(callBack1 && callBack2 && !callBack3){
+          callBack1(data);
+          callBack2(data);
+        }
+        else if(callBack1 && callBack2 && callBack3 && !callBack4){
+          callBack1(data);
+          callBack2(data);
+          callBack3(data);
+        }
+        else if(callBack1 && callBack2 && callBack3 && callBack4){
+          callBack1(data);
+          callBack2(data);
+          callBack3(data);
+          callBack4(data);
+        }
+      },
+
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+    });
+  }
+
+  getAjax("/getData", firstDeal);
+
+  var sendAjax = function(route, toSend, callBack1, callBack2, callBack3) {
+    console.log(toSend);
+    $.ajax({
+      type: "POST",
+      url: route,
+      data: JSON.stringify(toSend),
+      success: function(data, status){;
+        game = data;
+        console.log("Response data was:");
+        console.log(data);
+        if(callBack1 && !callBack2) callBack1(data);
+        else if(callBack1 && callBack2 && !callBack3){
+          callBack1(data);
+          callBack2(data);
+        }
+        else if(callBack1 && callBack2 && callBack3 ){
+          callBack1(data);
+          callBack2(data);
+          callBack3(data);
+        };
+
+      },
+
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+    });
+  }
+
+
+  var firstDeal = function(game){
+
+    clearCards();
+    for(var i = 0; i < game.cruz.handLeft.cards.length; i++){
+      if(i==0){
+        unHideCardPos("jeb", 1);
+        unHideCardPos("cruz", 1);
+        $("#dealer" + (i+1)).empty();
+        $("#pos_" + (i+1)).empty();
+        $('<img src="assets/images/deck.jpg">').appendTo($("#dealer" + (i+1)));
+        $('<img src="assets/images/cardPics/' + game.cruz.handLeft.cards[i].rank + '_of_' + game.cruz.handLeft.cards[i].suit + '.png">').appendTo($("#pos_" + (i+1)));
+      }
+      else{
+        $("#dealer" + (i+1)).empty();
+        $("#pos_" + (i+1)).empty();
+        $('<img src="assets/images/cardPics/' + game.jeb.hand.cards[i].rank + '_of_' + game.jeb.hand.cards[i].suit + '.png">').appendTo($("#dealer" + (i+1)));
+        $('<img src="assets/images/cardPics/' + game.cruz.handLeft.cards[i].rank + '_of_' + game.cruz.handLeft.cards[i].suit + '.png">').appendTo($("#pos_" + (i+1)));
+        unHideCardPos("jeb", i+1);
+        unHideCardPos("cruz", i+1);
+      }
+    }
+    $('#stayButton').removeClass("inActive")
+    $('#stayButton').addClass("active")
+    $('#hitButton').removeClass("inActive")
+    $('#hitButton').addClass("active")
+  }
+
+  var dealerReveal = function(){
+    $("#dealer1").empty();
+    $("#dealer1").append('<img src="assets/images/cardPics/' + game.jeb.hand.cards[0].rank + '_of_' + game.jeb.hand.cards[0].suit + '.png">')
+    $('#hitButton').removeClass("active")
+    $('#hitButton').addClass("inActive")
+  }
+
+
+  var dealerPlay = function(game){
+    dealerReveal();
+    console.log(game)
+    if(game.jeb.hand.count < 17){
+      sendAjax("dealer/hit", dealer)
+    }
+    leftResult(game);
+    rightResult(game);
+    
+  }
+
+  var placeUserCards = function(game){
+    for(var i = 0; i < game.cruz.handLeft.cards.length; i++){
+
+      $("#pos_" + (i+1)).empty();
+      $('<img src="assets/images/cardPics/' + game.cruz.handLeft.cards[i].rank + '_of_' + game.cruz.handLeft.cards[i].suit + '.png">').appendTo($("#pos_" + (i+1)));
+      unHideCardPos("cruz", (i+1));
+    }
+  }
+
+  var placeCardsLeft = function(game){
+    var toPlace = game.cruz.handLeft.cards.length;
+    $("#pos_" + (toPlace)).empty();
+    $('<img src="assets/images/cardPics/' + game.cruz.handLeft.cards[toPlace-1].rank + '_of_' + game.cruz.handLeft.cards[toPlace-1].suit + '.png">').appendTo($("#pos_" + (toPlace)));
+    unHideCardPos("cruz", (toPlace));
+
+  }
+
+  var placeCardsRight = function(game){
+    var toPlace = game.cruz.handRight.cards.length;
+    $("#pos_" + (11 - toPlace)).empty();
+    $('<img src="assets/images/cardPics/' + game.cruz.handRight.cards[toPlace-1].rank + '_of_' + game.cruz.handRight.cards[toPlace-1].suit + '.png">').appendTo($("#pos_" + (11-toPlace)));
+    unHideCardPos("cruz", (11-toPlace));
+
+  }
+
+  var clearCards = function(){
+    for(var i = 0; i < 10; i++){
+      $("#pos_" + (i+1)).empty();
+      $("#pos_" + (i+1)).append('<img src="assets/images/placeHolder.png">')
+      $("#pos_" + (i+1)).removeClass("cardHolder");
+      $("#pos_" + (i+1)).addClass("cardHolderEmpty");
+    };
+    for(var i = 0; i < 8; i++){
+      $("#dealer" + (i+1)).empty();
+      $("#dealer" + (i+1)).append('<img src="assets/images/placeHolder.png">')
+      $("#dealer" + (i+1)).removeClass("cardHolder");
+      $("#dealer" + (i+1)).addClass("cardHolderEmpty");
+
+    }
+  }
+
+  var displayAfterSplit = function(game){
+    // $("#pos_" + (1)).addClass("cardHolderEmpty");
+    $("#pos_" + (2)).empty();
+    $('<img src="assets/images/placeHolder.png"/>').appendTo($("#pos_" + (2)));
+    $("#pos_" + (2)).addClass("cardHolderEmpty");
+    // $('<img src="assets/images/cardPics/' + game.cruz.handLeft.cards[0].rank + '_of_' + game.cruz.handLeft.cards[0].suit + '.png">').appendTo($("#pos_" + (1)));
+    $("#pos_" + (10)).empty();
+    $('<img src="assets/images/cardPics/' + game.cruz.handRight.cards[0].rank + '_of_' + game.cruz.handRight.cards[0].suit + '.png">').appendTo($("#pos_" + (10)));
+    unHideCardPos("cruz", 10);
+  }
+
+  var unHideCardPos = function(player, position){
+
+    if(player == "jeb"){
+      $("#dealer" + (position)).removeClass("cardHolderEmpty");
+      $("#dealer" + (position)).addClass("cardHolder");
+    }
+    else if(player == "cruz"){
+      $("#pos_" + (position)).removeClass("cardHolderEmpty");
+      $("#pos_" + (position)).addClass("cardHolder");
+    } 
+  }
+
+  var leftResult = function(game){
+
+    if(game.cruz.handRight.cards.lenghth == 0){
+      if(game.cruz.handLeft.blackjack){ 
+        // sendAjax("user/addPot", game, 
+        winMsg("you won the hand!")
+      }
+      else if(game.cruz.handLeft.bust){ 
+        // sendAjax("user/zeroPot", game, 
+        winMsg("you lost the hand!")
+      }
+    }
+    else if(game.cruz.handRight.cards.length !== 0){
+      // sendAjax("user/addHalfPot", game, 
+      winMsg("you won half the pot!")
+    }
+    
+
+  }
+
+  var rightResult = function(game){
+    if(game.cruz.handRight.blackjack){ 
+      sendAjax("user/addPot", game, winMsg("you won the right hand!"))
+    }
+    else if(game.cruz.handRight.cards.bust){
+      sendAjax("user/addHalfPot", game, winMsg("you lost the right hand!"))
+    }
+  }
+
+
+  var winMsg = function(string) {
+    alert(string);
+  }
+
+
+
+  return {getAjax: getAjax, sendAjax: sendAjax, winMsg: winMsg, getGame: game, setGame: function(data) {game = data}, displayHand: displayHand, setPlayerBank: setPlayerBank, userHit: userHit, placeUserCards: placeUserCards, firstDeal: firstDeal, checkSplit: checkSplit, displayAfterSplit: displayAfterSplit, unHideCardPos: unHideCardPos, placeCardsLeft : placeCardsLeft, placeCardsRight: placeCardsRight, leftResult: leftResult, rightResult: rightResult};
+};
+
+
+});
+
+
+
+</script>
+</body>
+</html>

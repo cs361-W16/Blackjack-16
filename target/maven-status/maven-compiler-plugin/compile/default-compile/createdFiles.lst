@@ -12,3 +12,4 @@ controllers\DealerController.class
 models\Deck.class
 models\User.class
 models\Player.class
+models\Suit.class

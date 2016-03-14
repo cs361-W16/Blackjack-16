@@ -1,213 +1,268 @@
-body{
-    background-image: url("../images/background.jpg");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    height: 100%;
-}
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+   */
 
-table{
-    empty-cells: hide;
-}
+   html, body, div, span, applet, object, iframe,
+   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+   a, abbr, acronym, address, big, cite, code,
+   del, dfn, em, img, ins, kbd, q, s, samp,
+   small, strike, strong, sub, sup, tt, var,
+   b, u, i, center,
+   dl, dt, dd, ol, ul, li,
+   fieldset, form, label, legend,
+   table, caption, tbody, tfoot, thead, tr, th, td,
+   article, aside, canvas, details, embed,
+   figure, figcaption, footer, header, hgroup,
+   menu, nav, output, ruby, section, summary,
+   time, mark, audio, video {
+   	margin: 0;
+   	padding: 0;
+   	border: 0;
+   	font-size: 100%;
+   	height: 100%;
+   	font: inherit;
+   	vertical-align: baseline;
+   }
+   /* HTML5 display-role reset for older browsers */
+   article, aside, details, figcaption, figure,
+   footer, header, hgroup, menu, nav, section {
+   	display: block;
+   }
+   body {
+   	line-height: 1;
+   	background-image: url("../images/background.jpg");
+   	background-size: 100%;
+   	background-repeat: no-repeat;
+   }
+   ol, ul {
+   	list-style: none;
+   }
+   blockquote, q {
+   	quotes: none;
+   }
+   blockquote:before, blockquote:after,
+   q:before, q:after {
+   	content: '';
+   	content: none;
+   }
+   table {
+   	border-collapse: collapse;
+   	border-spacing: 0;
+   }
 
-tr{
-    width:550px;
-    margin-right: 5%;
-}
+   .pageOverlay {
+   	text-align: center;
+   	width: 101%;
+   	height: 100%;
+   	position: fixed;
+   	top:0;
+   	left: -.5%;
+   	z-index: 1000;
+   	background: url('../images/overlayBG.png');
+   }
 
-td{
-    width:20%;
-    height:40px;
-    text-align:center;
-    padding-right: 5%;
-}
+   #overlayContainer{
+   	width: 100%;
+   	height: 50%;
+   	margin-top: 15%;
+   	z-index: 1000;
+   }
 
-div.inline { float:left; }
+   .pageOverlay span{
+   	font-size: 36px;
+   	font-weight: bolder;
+   	margin-top: 15%;
+   	margin-bottom: 10px;
+   	color: grey;
 
-h1{
-    font-size: 50px;
-    text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
-}
+   	-webkit-text-stroke-width: .5px;
+   	-webkit-text-stroke-color: black;
+   }
 
-
-h2{
-    font-size: 30px;
-    text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
-}
-
-h3{
-    font-size: 20px;
-    text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
-}
-
-input:focus {outline:0;}
-
-
-#title{
-    width: 30%;
-    font-size: 40px;
-    font-weight: bold;
-    text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
-    display: inline;
-}
-
-#newGame{
-    width: 24.5%;
-    float: right;
-    display: inline;
-    margin-bottom: 1%;
-}
-
-#newGame input{
-    background: transparent;
-    border:none;
-    font-size: 40px;
-    font-weight: bold;
-    text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
-}
-#newGame label{
-    margin-bottom: 1%;
-}
-
-#newGame span{
-    font-size: 40px;
-    font-weight: bold;
-    text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
-}
-
-.cardLocation{
-    width: 400px;
-}
-
-#topDiv{
-    width: 100%;
-}
-
-#errors{
-    z-index: 2;
-    width: 99%;
-    overflow: hidden;
-    background-color: white;
-    display: inline;
-    position: absolute;
-    /*  overflow: hidden;*/
-}
-
-#errors span{
-    font-size: 25px;
-}
+   .pageOverlay input{
+   	margin-top: 10px !important;
+   	margin: auto;
+   	display: block;
+   }
 
 
-#header {
-    width: 20%;
-    display: inline;
-}
-
-#board{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-    z-index: 2;
-}
-#gameBoard{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-#buttons{
-    width: 15%;
-    display:block;
-    padding-top:20%;
-    float: right;
-    margin: 0% 2%;
-    /*position: absolute*/;
-}
-
-#deck button{
-    width: 100px;
-    height: 140px;
-    background-image: url("../images/deck.jpg");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    display: inline;
-    
-}
-
-#gameboard tr div {
-    display: inline;
-}
-
-#gameboard {
-    clear: both;
-}
-
-.boardCol {
-    display: inline;
-    float: left;
-    padding-right: 5%;
-}
+   #containerDiv{
+   	width: 100%;
+   	height: 100%;
+   }
 
 
 
-.card {
-    width: 200px;
-    height:100px;
-}
 
-.pageOverlay {
-    width: 101%;
-    height: 100%;
-    position: fixed;
-    top:0;
-    left: -.5%;
-    z-index: 5;
-    background: url('../images/overlayBG.png');
-}
+   #dealer {
+   	margin-top: 1%;
+   	width: 100%;
+   	height: 25%;
+   	display: inline-block;
+   	text-align: center;
 
-/*RegionSelect formatting starts here*/
+   }
 
-input.button{
-    color:transparent;
-}
+   #dealerCards{
 
-#deckChoice{
-    padding-top: 10%;
-    width: 100%;
-    text-align: center;
-}
+   }
 
-#deckEngish{
-    width: 30%;
-    display: inline;
-    float: left;
-}
+   #deckImg{
+   	width: 110px;
+   	height: 154px;
+   	margin-right: 2%;
+   	float: right;
+   	display: inline;
+   	overflow: hidden;
+   	z-index: -1;
+   }
 
-#deckEngish input{
-    width: 100px;
-    height: 140px;
-    background-image: url("../images/deck.jpg");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    display: inline;
-}
+   #restart{
+   	height: auto;
+   	z-index: 2;
+   	float: right;
+   	top: 7%;
+   	right: 2%;
+   	position: absolute;
+   	font-size: 24px;
+   	font-weight: bolder;
+   	color: black;
+   	-webkit-text-stroke-width: .5px;
+   	-webkit-text-stroke-color: black;
+   }
 
-#deckSpanish{
-    width: 30%;
-    display: inline;
-    float: right;
-}
+   #boardCenter{
+   	height: 30%;
+   	width: 100%;
+   	text-align: center !important;
+   	overflow: hidden;
+   }
 
-#deckSpanish input{
-    width: 100px;
-    height: 140px;
-    background-image: url("../images/spanishDeck.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    display: inline;
+   #boardCenter span{
+   	width: 100% !important;
+   	height: 25%;
+   	margin: auto !important;
+   	text-align: center;
+   }
 
-}
+   #player{
+   	margin-top: 2%;
+   	width: 100%;
+   	height: auto;
+   	display: inline-block;
+   	text-align: center;
+   	/*background-color: #fff;*/
+   }
 
-#chosenDeck{
-    display: none;    
-}
+   #playerInfo{
+   	display: inline;
+   	width: 100%;
+   	height: 15%;
+   	float: right;
+   	text-align: center;
+   	overflow: hidden;
+   	display: inline;
+   }
+
+   #playerName{
+   	width: 75%;
+   	/*margin: auto;*/
+   	display: inline-block;
+   	float: left !important;
+   	text-align: center;
+   	overflow: hidden;
+   }
+
+   #nameSpan{
+   	display: inline;
+   	width: 100%;
+   	overflow: hidden;
+   	/*text-align: center;*/
+   	/*margin: auto;*/
+   }
+
+   #playerBank{
+   	width: 25%;
+   	display: inline;
+   	overflow: hidden;
+   	height: auto;
+   	float: right;
+   }
+
+   #playerCards{
+   	width: 100%;
+   	display: inline;
+   }
+
+   .cardHolder{
+   	width: 110px;
+   	height: 154px;
+   	display: inline;
+   }
+
+  .cardHolder img{
+   	width: 110px;
+   	height: 154px;
+   	display: inline;
+   }
+
+   .cardHolderEmpty{
+   	width: 110px;
+   	height: 154px;
+   	display: inline;
+   }
+   .cardHolderEmpty img{
+   	width: 110px;
+   	height: 154px;
+   	display: inline;
+   	opacity:0;
+   }
+
+   .nameText{
+
+   	float: left;
+   	font-size: 36px;
+   	font-weight: bolder;
+   	top: 0;
+   	color: grey;
+   	text-align: left;
+   	-webkit-text-stroke-width: .5px;
+   	-webkit-text-stroke-color: black;
+   }
+
+   #playerActions{
+   	/*position: relative;*/
+   	/*display: inline-block;*/
+   	width: 100%;
+   	height: 5%;
+   	margin-top: 5%
+
+   }
+
+   #playerBank{
+   	width: 20%;
+   	float: right !important;
+   }
+
+   .actionButton.active{
+   	width: 10%;
+   	margin: 0% 1% 1% 1%;
+   }
+
+   .actionButton.inActive{
+   	width: 10%;
+   	margin: 0% 1% 1% 1%;
+   }
+
+   #postSplit{
+   	height: 1%;
+   	margin: 0%;
+   }
+
+   .actionButton.inActive.hidden{
+   	margin-top: 0;
+   	width: 10%;
+   	margin: 0% 1% 1% 1%;
+   	opacity: 0;
+   }
