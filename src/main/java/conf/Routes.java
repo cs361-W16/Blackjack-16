@@ -20,16 +20,16 @@ package conf;
 import ninja.AssetsController;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
-import controllers.ApplicationController;
-import controllers.UserController;
-import controllers.DealerController;
+import controllers.*;
+
 
 public class Routes implements ApplicationRoutes {
 
     @Override
-    public void init(Router router) {  
-        
+    public void init(Router router) {
+
         router.GET().route("/").with(ApplicationController.class, "index");
+        router.GET().route("/getData").with(ApplicationController.class, "getData");
 //        router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
         // router.GET().route("/AcesUp").with(ApplicationController.class, "acesUp");
 
@@ -38,27 +38,34 @@ public class Routes implements ApplicationRoutes {
         // router.POST().route("/dealGame").with(ApplicationController.class, "dealPost");
         // router.POST().route("/moveCard/{columnFrom}/{columnTo}").with(ApplicationController.class, "moveCard");
         // router.POST().route("/removeCard/{column}").with(ApplicationController.class, "removeCard");
-        router.GET().route("/BlackJack/").with(ApplicationController.class, "deal");
-        router.GET().route("/dealer/hit").with(DealerController.class, "hit");
+        router.GET().route("/BlackJack/").with(ApplicationController.class, "index");
+
+        router.POST().route("/dealer/hit").with(DealerController.class, "hit");
         router.GET().route("/dealer/stay").with(DealerController.class, "stay");
-        router.GET().route("/user/hit").with(UserController.class, "hit");
-        router.GET().route("/user/stay").with(UserController.class, "stay");
-        router.GET().route("/user/fold").with(UserController.class, "fold");
-        router.GET().route("/user/doubleDown").with(UserController.class, "doubleDown");
-        router.GET().route("/user/split").with(UserController.class, "split");
-        router.GET().route("/user/bet").with(UserController.class, "bet");
+        router.POST().route("/user/hit").with(UserController.class, "hitLeft");
+        router.POST().route("/user/hitRight").with(UserController.class, "hitRight");
+        router.POST().route("/user/doubleDown").with(UserController.class, "doubleDown");
+        router.POST().route("/user/split").with(UserController.class, "split");
+        router.POST().route("/user/checkBlackJack").with(UserController.class, "userBlackjack");
+        router.POST().route("/user/checkBust").with(UserController.class, "userBust");
+        router.POST().route("/user/addPot").with(UserController.class, "updateBank");
+        router.POST().route("/user/addHalfPot").with(UserController.class, "updateBankHalf");
+        router.POST().route("/shuffleDeck").with(ApplicationController.class, "shuffleDeck");
+        router.POST().route("/newCards").with(ApplicationController.class, "newcards");
+
+
+        // router.GET().route("/user/bet").with(UserController.class, "bet");
 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
-        ///////////////////////////////////////////////////////////////////////    
+        ///////////////////////////////////////////////////////////////////////
         router.GET().route("/assets/webjars/{fileName: .*}").with(AssetsController.class, "serveWebJars");
         router.GET().route("/assets/{fileName: .*}").with(AssetsController.class, "serveStatic");
-        router.GET().route("/controllers/javascript/{fileName: .*}").with(ApplicationController.class, "externalJs");
 
         ///////////////////////////////////////////////////////////////////////
         // Region Select Route
         ///////////////////////////////////////////////////////////////////////
-    
+
 
 
 
