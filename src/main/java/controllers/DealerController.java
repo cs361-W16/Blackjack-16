@@ -63,6 +63,53 @@ public Result stay(){
     return Results.html();
 
 }
+    // public Result index() {
+    //     return Results.html();
+    // }
 
+    // public Result acesUp() {
+    //     return Results.html().template("views/AcesUp/AcesUp.flt.html");
+    // }
+
+    // public Result regionSelect() {
+    //     return Results.html().template("views/AcesUp/regionSelect.html");
+    // }
+
+    // public Result externalJs() {
+    //     return Results.html().template("controllers/javascript/externalJs.js");
+    // }
+
+    // public Result gameGet(Context context){
+    //     Game g = new Game();
+
+
+    //     if(context.getRequestPath().contains("spanish")){
+    //         g.buildSpanishDeck();
+    //     }
+    //     else{
+    //         g.buildDeck();
+    //     }
+    //     g.shuffle();
+    //     g.dealFour();
+
+    //     return Results.json().render(g);
+    // }
+
+    // public Result dealPost(Context context, Game g) {
+    //     if(context.getRequestPath().contains("deal")){
+    //         g.dealFour();
+    //     }
+    //     return Results.json().render(g);
+    // }
+
+    // public Result removeCard(Context context, @PathParam("column") int colNumber, Game g){
+    //     g.remove(colNumber);
+    //     return  Results.json().render(g);
+    // }
+
+    // public Result moveCard(Context context, @PathParam("columnFrom") int colFrom, @PathParam("columnTo") int colTo, Game g){
+    //     g.move(colFrom,colTo);
+    //     return  Results.json().render(g);
+    // }
 
 }
