@@ -20,9 +20,9 @@ public class testGame {
     @Test
     public void testStartGame(){
         Game g =new Game();
-        g.start("bob",10);
-        assertEquals(g.u.bank,10);
-        assertEquals(g.u.name,"bob");
+
+        assertEquals(g.cruz.bank,100);
+
     }
 
 }

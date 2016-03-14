@@ -2,6 +2,7 @@ package models;
 
 import org.junit.Test;
 
+
 import static org.junit.Assert.*;
 
 public class testPlayer{
@@ -19,13 +20,10 @@ public class testPlayer{
 
     @Test
     public void testHit(){
-        Player p = new Player();
-        Deck d = new Deck();
-        d.shuffle();
-        Card c = d.dealCard();
-        int dealtValue = c.getValue();
-        p.hit(c);
-        assertEquals(dealtValue,p.hand.cards.get(0).getValue());
+        Game g = new Game();
+        g.cruz.hit(g.d.cards.get(1));
+
+        assertEquals(2,g.cruz.handLeft.cards.size());
     }
 
     @Test

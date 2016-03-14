@@ -2,7 +2,7 @@ package models;
 
 import org.junit.Test;
 
-import static models.Hand.*;
+
 import static org.junit.Assert.*;
 
 public class testHand{
@@ -30,7 +30,7 @@ public class testHand{
         h2.addCard(c);
         h2.addCard(c1);
         h2.addCard(c2);
-        assertEquals(true,h2.isBlackjack());
+        assertEquals(false,h2.isBlackjack());
     }
 
     @Test
@@ -67,4 +67,3 @@ public class testHand{
         assertEquals(false,h5.isBust());
     }
 }
-

@@ -1,1 +1,10 @@
+models\testHand.class
 controllers\ApiControllerDocTesterTest.class
+models\testDealer.class
+models\TestAce.class
+models\testFace.class
+models\testGame.class
+models\testCard.class
+models\testUser.class
+models\testDeck.class
+models\testPlayer.class

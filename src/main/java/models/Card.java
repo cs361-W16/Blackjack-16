@@ -1,27 +1,34 @@
 package models;
 
-public class Card{
-    public String suit;
-    public String rank;
-    public int value;
+import com.fasterxml.jackson.annotation.*;
 
-    Card(String s, String r, int v) {
-        suit = s;
-        rank = r;
-        value = v;
-    }
 
-    public String getSuit(){
-        return suit;
-    }
+import java.io.Serializable;
 
-    public String getRank(){
-        return rank;
-    }
+public class Card {
 
-    public int getValue(){ return value; }
+  public String suit;
+  public String rank;
+  public int value;
 
-    public void setValue(int aceValue){
-        value = aceValue;
-    }
+  @JsonCreator
+  Card(@JsonProperty("suit") String s, @JsonProperty("rank") String r, @JsonProperty("value") int v) {
+      this.suit = s;
+      this.rank = r;
+      this.value = v;
+  }
+
+  public String getSuit(){
+      return suit;
+  }
+
+  public String getRank(){
+      return rank;
+  }
+
+  public int getValue(){ return value; }
+
+  public void setValue(int aceValue){
+      value = aceValue;
+  }
 }

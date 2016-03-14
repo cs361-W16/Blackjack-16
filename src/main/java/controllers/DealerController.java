@@ -16,7 +16,7 @@
 
 package controllers;
 
-import models.Dealer;
+import models.*;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -32,15 +32,37 @@ public class DealerController extends ApplicationController {
         return Results.html();
     }
 
-    public Result hit(){
-        return Results.html(); 
+    public Result hit(Context context, Game g){
 
-    }
+      if((g.jeb.hand.count + 11) < 21){  
+        while(g.jeb.hand.count < 17){
+          g.jeb.hit(g.d.getCardinDeck());
+          g.jeb.hand.isBlackjack();
+          g.jeb.hand.isBust();
+      }
+  }
+      else{
+        for (int i = 0; i < g.jeb.hand.cards.size(); i++){
+            if( g.jeb.hand.cards.get(i).rank == "Ace"){
+                g.jeb.hand.cards.get(i).setValue(1);
+            }
+        }
+        while(g.jeb.hand.count < 17){
+          g.jeb.hit(g.d.getCardinDeck());
+          g.jeb.hand.isBlackjack();
+          g.jeb.hand.isBust();
+      }
 
-    public Result stay(){
-            return Results.html(); 
-        
-    }
+  }
+       // remove card
+  return Results.json().render(g);
+
+}
+
+public Result stay(){
+    return Results.html();
+
+}
     // public Result index() {
     //     return Results.html();
     // }
@@ -59,7 +81,7 @@ public class DealerController extends ApplicationController {
 
     // public Result gameGet(Context context){
     //     Game g = new Game();
-        
+
 
     //     if(context.getRequestPath().contains("spanish")){
     //         g.buildSpanishDeck();

@@ -1,17 +1,27 @@
 package models;
 
-public class Game{
-//deal removes top card and adds to hand
-    public static User u;
-    public static Dealer d;
+import com.fasterxml.jackson.annotation.*;
 
-    public void start(String name, int money){
-        User u = new User(money, name);
-        Dealer d = new Dealer();
-    }
+import java.io.Serializable;
 
-    public void playRound(int bet){
-        u.Bet(bet);
+
+public class Game implements Serializable {
+    public User cruz;
+    public Dealer jeb;
+    public Deck d;
+    public int pot;
+
+    public Game() {
+     this.cruz = new User();
+     this.jeb = new Dealer();
+     this.d = new Deck();
+     this.pot = 0;
+     this.d.shuffle();
+     this.cruz.handLeft.addCard(this.d.getCardinDeck());
+     this.cruz.handLeft.addCard(this.d.getCardinDeck());
+
+     this.jeb.hand.addCard(this.d.getCardinDeck());
+     this.jeb.hand.addCard(this.d.getCardinDeck());
     }
 
 }

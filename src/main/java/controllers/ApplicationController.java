@@ -16,9 +16,12 @@
 
 package controllers;
 
+
+import models.*;
 import models.Game;
 import ninja.Context;
 import ninja.Result;
+import ninja.template.*;
 import ninja.Results;
 
 import com.google.inject.Singleton;
@@ -28,58 +31,36 @@ import ninja.params.PathParam;
 @Singleton
 public class ApplicationController {
 
-    public Result index() {
-        return Results.html().template("views/layout/defaultLayout.ftl.html");
+    public Result index(Context context) {
+        Game g = new Game();
+        // TemplateEngine.invoke(context, Results.html().template("views/layout/BlackJack.ftl.html"));
+        // loadTemplate("views/layout/BlackJack.ftl.html");
+        return Results.html().template("views/layout/BlackJack.ftl.html");
     }
 
-    public Result deal() {
-        return Results.html().template("views/layout/defaultLayout.ftl.html");
+
+
+    public Result getData(Context context){
+        Game g = new Game();
+        g.pot = 4;
+        g.cruz.bank -= 2;
+        return Results.json().render(g);
     }
 
-    // public Result acesUp() {
-    //     return Results.html().template("views/AcesUp/AcesUp.flt.html");
-    // }
-
-    // public Result regionSelect() {
-    //     return Results.html().template("views/AcesUp/regionSelect.html");
-    // }
-
-    public Result externalJs() {
-        return Results.html().template("views/layout/defaultLayout.ftl.html");
-        // return Results.html().template("controllers/javascript/externalJs.js");
+    public Result shuffleDeck(Context context, Game g){
+        g.d.shuffle();
+        return Results.json().render(g);
+    }
+    
+    public Result newcards(Context context, Game g){
+        for(int i = 0; i < g.cruz.handLeft.cards.size(); i++ ){
+            g.cruz.handLeft.cards.remove(g.cruz.handLeft.cards.get(i));
+        }
+        for(int i = 0; i < g.jeb.hand.cards.size(); i++ ){
+            g.jeb.hand.cards.remove(g.jeb.hand.cards.get(i));
+        }
+        return Results.json().render(g);
     }
 
-    // public Result gameGet(Context context){
-    //     Game g = new Game();
-        
-
-    //     if(context.getRequestPath().contains("spanish")){
-    //         g.buildSpanishDeck();
-    //     }
-    //     else{
-    //         g.buildDeck();
-    //     }
-    //     g.shuffle();
-    //     g.dealFour();
-
-    //     return Results.json().render(g);
-    // }
-
-    // public Result dealPost(Context context, Game g) {
-    //     if(context.getRequestPath().contains("deal")){
-    //         g.dealFour();
-    //     }
-    //     return Results.json().render(g);
-    // }
-
-    // public Result removeCard(Context context, @PathParam("column") int colNumber, Game g){
-    //     g.remove(colNumber);
-    //     return  Results.json().render(g);
-    // }
-
-    // public Result moveCard(Context context, @PathParam("columnFrom") int colFrom, @PathParam("columnTo") int colTo, Game g){
-    //     g.move(colFrom,colTo);
-    //     return  Results.json().render(g);
-    // }
 
 }
