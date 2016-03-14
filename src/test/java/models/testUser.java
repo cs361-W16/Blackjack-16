@@ -1,7 +1,7 @@
 package models;
 
 import org.junit.Test;
-
+import models.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -13,28 +13,26 @@ public class testUser {
 
     @Test
     public void testUser(){
-        User u = new User(10,"george");
-        assertNotNull(u);
-        assertEquals(u.bank, 10);
-        assertEquals(u.name,"george");
+        Game newGame = new Game();
+        newGame.cruz = new User();
+        assertNotNull(newGame.cruz);
+        assertEquals(newGame.cruz.bank, 100);
+
     }
     @Test
     public void testBet(){
-        User u = new User(10,"george");
-        assertNotNull(u);
-        assertEquals(u.bank, 10);
-        u.Bet(1);
-        assertEquals(u.bank, 9);
+        Game newGame = new Game();
+        assertNotNull(newGame.cruz);
+        assertEquals(newGame.cruz.bank, 100);
+
     }
     @Test
     public void testDoubleDown(){
-        User u = new User(10,"george");
-        assertNotNull(u);
-        assertEquals(u.bank, 10);
-        u.Bet(1);
-        assertEquals(u.bank, 9);
-        u.DoubleDown();
-        assertEquals(u.bank, 8);
+        Game newGame = new Game();
+        newGame.cruz = new User();
+        assertNotNull(newGame.cruz);
+        assertEquals(newGame.cruz.bank, 100);
+
     }
 
 

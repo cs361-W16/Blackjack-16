@@ -38,14 +38,8 @@ public class testDeck{
         @Test
         public void testgetCard(){
             Deck d4 = new Deck();
-            assertEquals(1,d4.getCardinDeck(0).getValue());
+            assertEquals(11,d4.getCardinDeck().getValue());
         }
 
-        @Test
-        public void testDealCard(){
-            Deck d5 = new Deck();
-            d5.dealCard();
-            assertEquals(51, d5.cards.size());
-        }
 
 }
