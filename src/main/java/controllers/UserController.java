@@ -16,9 +16,12 @@
 
 package controllers;
 
-import models.User;
+
+import models.*;
+import models.Game;
 import ninja.Context;
 import ninja.Result;
+import ninja.template.*;
 import ninja.Results;
 
 import com.google.inject.Singleton;
@@ -27,90 +30,68 @@ import ninja.params.PathParam;
 
 
 
-public class UserController extends ApplicationController  {
+public class UserController {
 
     public Result index() {
         return Results.html();
     }
 
 
-    public Result hit(){
-        return Results.html();
+    public Result hitLeft(Context context, Game g){
+
+       g.cruz.handLeft.addCard(g.d.getCardinDeck());
+       g.cruz.handLeft.isBlackjack();
+       g.cruz.handLeft.isBust();
+       // remove card
+       return Results.json().render(g);
 
     }
 
-    public Result stay(){
-        return Results.html();      
+    public Result hitRight(Context context, Game g){
 
+       g.cruz.handRight.addCard(g.d.getCardinDeck());
+       // remove card
+       return Results.json().render(g);
     }
 
-    public Result fold(){
-        return Results.html();
-
+    public Result doubleDown(Context context, Game g){
+       g.cruz.bank -=2;
+       g.pot+=2;
+        
+       return Results.json().render(g);
     }
 
-    public Result doubleDown(){
-        return Results.html();
-
+    public Result split(Context context, Game g) {
+        g.pot+=2;
+        g.cruz.bank -=2;
+        g.cruz.handRight.cards.add(g.cruz.handLeft.cards.get(1));
+        g.cruz.handLeft.count -= g.cruz.handLeft.cards.get(1).value;
+        g.cruz.handRight.count += g.cruz.handLeft.cards.get(1).value;
+        g.cruz.handLeft.cards.remove(1);
+        return Results.json().render(g);
     }
 
-    public Result split(){
-        return Results.html();
-
+    public Result userBlackjack(Context context, Game g){
+        g.cruz.handRight.isBlackjack();
+        return Results.json().render(g);
     }
 
-    public Result bet(){
-        return Results.html();
-
+    public Result userBust(Context context, Game g){
+        g.cruz.handRight.isBust();
+        return Results.json().render(g);
     }
 
-    // public Result index() {
-    //     return Results.html();
-    // }
 
-    // public Result acesUp() {
-    //     return Results.html().template("views/AcesUp/AcesUp.flt.html");
-    // }
-
-    // public Result regionSelect() {
-    //     return Results.html().template("views/AcesUp/regionSelect.html");
-    // }
-
-    // public Result externalJs() {
-    //     return Results.html().template("controllers/javascript/externalJs.js");
-    // }
-
-    // public Result gameGet(Context context){
-    //     Game g = new Game();
-
-
-    //     if(context.getRequestPath().contains("spanish")){
-    //         g.buildSpanishDeck();
-    //     }
-    //     else{
-    //         g.buildDeck();
-    //     }
-    //     g.shuffle();
-    //     g.dealFour();
-
-    //     return Results.json().render(g);
-    // }
-
-    // public Result dealPost(Context context, Game g) {
-    //     if(context.getRequestPath().contains("deal")){
-    //         g.dealFour();
-    //     }
-    //     return Results.json().render(g);
-    // }
-
-    // public Result removeCard(Context context, @PathParam("column") int colNumber, Game g){
-    //     g.remove(colNumber);
-    //     return  Results.json().render(g);
-    // }
-
-    // public Result moveCard(Context context, @PathParam("columnFrom") int colFrom, @PathParam("columnTo") int colTo, Game g){
-    //     g.move(colFrom,colTo);
-    //     return  Results.json().render(g);
-    // }
+    public Result updateBank(Context context, Game g){
+            g.cruz.winsPot(g.pot);
+            g.pot = 0;
+            return Results.json().render(g);
+}
+    public Result updateBankHalf(Context context, Game g){
+        
+            g.cruz.winsPot(g.pot/3);
+            g.pot = 0;
+            return Results.json().render(g);
+          }
 
 }
